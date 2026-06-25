@@ -3999,9 +3999,15 @@
     opacity: 0.7;
   }
 
-  .play-shell {
+  .play-game-lobby {
     position: relative;
     z-index: 1;
+    width: min(1460px, 100%);
+    margin: 0 auto;
+  }
+
+  .play-shell {
+    position: relative;
     height: min(78vh, 760px);
     min-height: 590px;
     overflow: hidden;

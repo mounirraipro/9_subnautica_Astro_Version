@@ -5,6 +5,18 @@ import { faqItems, features, gameMeta, stats, survivalLoop } from "@/data/gameDa
 import { siteConfig } from "@/data/siteConfig";
 
 const recentPosts = articles.slice(0, 3);
+const lobbyCards = [
+  { href: "/play/", title: "Subnautica Online", shortTitle: "Play Now", category: "Now playing", accentClass: "accent-sky" },
+  { href: "/how-to-play/", title: "First Dive Route", shortTitle: "First Dives", category: "Beginner", accentClass: "accent-green" },
+  { href: "/blog/crafting-priorities/", title: "Crafting Priorities", shortTitle: "Crafting", category: "Guide", accentClass: "accent-gold" },
+  { href: "/blog/base-building-guide/", title: "Base Building Guide", shortTitle: "Base Building", category: "Guide", accentClass: "accent-blue" },
+  { href: "/blog/biome-progression/", title: "Biome Progression", shortTitle: "Biomes", category: "Explore", accentClass: "accent-sky" },
+  { href: "/blog/creature-safety/", title: "Creature Safety", shortTitle: "Safety", category: "Survival", accentClass: "accent-coral" },
+  { href: "/strategy/", title: "Strategy Guide", shortTitle: "Strategy", category: "Planning", accentClass: "accent-green" },
+  { href: "/game-mechanics/", title: "Survival Systems", shortTitle: "Systems", category: "Mechanics", accentClass: "accent-violet" },
+].map((card) => ({ ...card, thumbnail: "/subnautica-og.svg" }));
+const lobbyLeft = lobbyCards.slice(0, 4);
+const lobbyRight = lobbyCards.slice(4, 8);
 
 const homeStructuredData = [
   {
@@ -49,8 +61,30 @@ const homeStructuredData = [
 <BaseLayout title={siteConfig.name} description={siteConfig.description} structuredData={homeStructuredData}>
   <section class="hero-play">
     <div class="home-game-lobby">
+      <div class="game-bento-grid game-bento-grid-side" aria-label="Subnautica quick links">
+        {lobbyLeft.map((card, index) => (
+          <a class:list={["game-bento-card", card.accentClass, { "game-bento-card-featured": index === 0 }]} href={card.href}>
+            <img src={card.thumbnail} alt={`${card.title} preview`} width="640" height="360" loading="lazy" />
+            <div>
+              <span>{card.category}</span>
+              <strong>{card.shortTitle}</strong>
+            </div>
+          </a>
+        ))}
+      </div>
       <div class="hero-game">
         <iframe src={gameMeta.iframeUrl} title="Play Subnautica" loading="eager" allow="autoplay; fullscreen *" allowfullscreen></iframe>
+      </div>
+      <div class="game-bento-grid game-bento-grid-side" aria-label="More Subnautica guides">
+        {lobbyRight.map((card, index) => (
+          <a class:list={["game-bento-card", card.accentClass, { "game-bento-card-featured": index === 0 }]} href={card.href}>
+            <img src={card.thumbnail} alt={`${card.title} preview`} width="640" height="360" loading="lazy" />
+            <div>
+              <span>{card.category}</span>
+              <strong>{card.shortTitle}</strong>
+            </div>
+          </a>
+        ))}
       </div>
     </div>
     <div class="hero-copy">

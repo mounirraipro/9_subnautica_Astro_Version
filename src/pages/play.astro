@@ -2,6 +2,19 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { gameMeta, playSteps, tips } from "@/data/gameData";
 import { siteConfig } from "@/data/siteConfig";
+
+const lobbyCards = [
+  { href: "/how-to-play/", title: "How to Play", shortTitle: "First Dives", category: "Guide", accentClass: "accent-green" },
+  { href: "/blog/getting-started/", title: "Getting Started", shortTitle: "Start Safe", category: "Beginner", accentClass: "accent-sky" },
+  { href: "/blog/crafting-priorities/", title: "Crafting Priorities", shortTitle: "Crafting", category: "Tools", accentClass: "accent-gold" },
+  { href: "/blog/base-building-guide/", title: "Base Building", shortTitle: "Build Base", category: "Habitat", accentClass: "accent-blue" },
+  { href: "/blog/biome-progression/", title: "Biome Progression", shortTitle: "Biomes", category: "Explore", accentClass: "accent-sky" },
+  { href: "/blog/creature-safety/", title: "Creature Safety", shortTitle: "Safety", category: "Survival", accentClass: "accent-coral" },
+  { href: "/strategy/", title: "Strategy Guide", shortTitle: "Strategy", category: "Planning", accentClass: "accent-green" },
+  { href: "/game-mechanics/", title: "Survival Systems", shortTitle: "Systems", category: "Mechanics", accentClass: "accent-violet" },
+].map((card) => ({ ...card, thumbnail: "/subnautica-og.svg" }));
+const lobbyLeft = lobbyCards.slice(0, 4);
+const lobbyRight = lobbyCards.slice(4, 8);
 ---
 
 <BaseLayout
@@ -10,15 +23,39 @@ import { siteConfig } from "@/data/siteConfig";
 >
   <section class="play-stage" id="top">
     <div class="play-stage-bg" aria-hidden="true"></div>
-    <div class="play-shell" data-game-shell>
-      <iframe src={gameMeta.iframeUrl} title="Subnautica game" allow="autoplay; fullscreen *" allowfullscreen></iframe>
-      <div class="play-float-controls">
-        <button type="button" data-share-game aria-label="Share game">
-          <span>Share</span>
-        </button>
-        <button type="button" data-fullscreen-game aria-label="Fullscreen game">
-          <span>Fullscreen</span>
-        </button>
+    <div class="home-game-lobby play-game-lobby">
+      <div class="game-bento-grid game-bento-grid-side" aria-label="Subnautica guide links">
+        {lobbyLeft.map((card, index) => (
+          <a class:list={["game-bento-card", card.accentClass, { "game-bento-card-featured": index === 0 }]} href={card.href}>
+            <img src={card.thumbnail} alt={`${card.title} preview`} width="640" height="360" loading="lazy" />
+            <div>
+              <span>{card.category}</span>
+              <strong>{card.shortTitle}</strong>
+            </div>
+          </a>
+        ))}
+      </div>
+      <div class="play-shell" data-game-shell>
+        <iframe src={gameMeta.iframeUrl} title="Subnautica game" allow="autoplay; fullscreen *" allowfullscreen></iframe>
+        <div class="play-float-controls">
+          <button type="button" data-share-game aria-label="Share game">
+            <span>Share</span>
+          </button>
+          <button type="button" data-fullscreen-game aria-label="Fullscreen game">
+            <span>Fullscreen</span>
+          </button>
+        </div>
+      </div>
+      <div class="game-bento-grid game-bento-grid-side" aria-label="More Subnautica guides">
+        {lobbyRight.map((card, index) => (
+          <a class:list={["game-bento-card", card.accentClass, { "game-bento-card-featured": index === 0 }]} href={card.href}>
+            <img src={card.thumbnail} alt={`${card.title} preview`} width="640" height="360" loading="lazy" />
+            <div>
+              <span>{card.category}</span>
+              <strong>{card.shortTitle}</strong>
+            </div>
+          </a>
+        ))}
       </div>
     </div>
   </section>

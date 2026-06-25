@@ -1,0 +1,9 @@
+---
+import BlogArticle from "@/components/BlogArticle.astro";
+import { articles } from "@/data/articles";
+
+const article = articles.find((item) => item.slug === "crafting-priorities");
+if (!article) throw new Error("Missing article: crafting-priorities");
+---
+
+<BlogArticle article={article} />

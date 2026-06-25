@@ -1,0 +1,69 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { articles } from "@/data/articles";
+
+const dateFormatter = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" });
+const [featuredPost, ...restPosts] = articles;
+const categories = Array.from(
+  articles.reduce((map, article) => {
+    map.set(article.category, (map.get(article.category) ?? 0) + 1);
+    return map;
+  }, new Map<string, number>()),
+).sort(([a], [b]) => a.localeCompare(b));
+---
+
+<BaseLayout title="Subnautica Guides" description="Read Subnautica survival guides, crafting advice, base building notes, biome progression tips, and creature safety guidance.">
+  <main class="blog-card-page">
+    <header class="blog-card-hero" aria-labelledby="blog-directory-title">
+      <div class="blog-card-hero-copy">
+        <p>{articles.length} guides across {categories.length} topics</p>
+        <h1 id="blog-directory-title">Subnautica Guides</h1>
+        <span>Survival, crafting, exploration, and safer deep-water planning.</span>
+      </div>
+      <nav class="blog-card-topics" aria-label="Guide topics">
+        {categories.map(([category, count]) => (
+          <span>
+            <strong>{category}</strong>
+            <small>{count}</small>
+          </span>
+        ))}
+      </nav>
+    </header>
+
+    <h2 class="sr-only">Guide articles</h2>
+
+    {featuredPost && (
+      <a class="blog-feature-card" href={`/blog/${featuredPost.slug}/`}>
+        <div>
+          <p>Latest / {featuredPost.category}</p>
+          <h3>{featuredPost.title}</h3>
+          <span>{featuredPost.description}</span>
+        </div>
+        <footer>
+          <time datetime={featuredPost.datePublished}>{dateFormatter.format(new Date(featuredPost.datePublished))}</time>
+          <small>{featuredPost.readTime}</small>
+        </footer>
+      </a>
+    )}
+
+    <section class="blog-card-section" id="article-list" aria-labelledby="blog-list-title">
+      <header>
+        <h3 id="blog-list-title">All guides</h3>
+        <span>{restPosts.length} more reads</span>
+      </header>
+      <div class="blog-card-grid">
+        {restPosts.map((post) => (
+          <a class="blog-post-card" href={`/blog/${post.slug}/`}>
+            <div class="blog-post-card-top">
+              <span>{post.category}</span>
+              <time datetime={post.datePublished}>{dateFormatter.format(new Date(post.datePublished))}</time>
+            </div>
+            <h3>{post.title}</h3>
+            <p>{post.description}</p>
+            <small>{post.readTime}</small>
+          </a>
+        ))}
+      </div>
+    </section>
+  </main>
+</BaseLayout>

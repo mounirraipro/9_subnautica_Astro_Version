@@ -1,0 +1,9 @@
+---
+import BlogArticle from "@/components/BlogArticle.astro";
+import { articles } from "@/data/articles";
+
+const article = articles.find((item) => item.slug === "biome-progression");
+if (!article) throw new Error("Missing article: biome-progression");
+---
+
+<BlogArticle article={article} />

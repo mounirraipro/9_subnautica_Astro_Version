@@ -1,0 +1,9 @@
+---
+import BlogArticle from "@/components/BlogArticle.astro";
+import { articles } from "@/data/articles";
+
+const article = articles.find((item) => item.slug === "getting-started");
+if (!article) throw new Error("Missing article: getting-started");
+---
+
+<BlogArticle article={article} />
